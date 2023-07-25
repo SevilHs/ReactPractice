@@ -7,7 +7,7 @@ const Pagination = ({ totalPage,setPage }) => {
   return (
     <div >
         {
-        pages.map((item)=><Button key={uuid()} onClick={()=>setPage(item)}>{item}</Button>)
+        pages.map((item)=><Button key={uuid()} onClick={()=>setPage({type:"SET_PAGE",payload:item})}>{item}</Button>)
       }
     </div>
   );
