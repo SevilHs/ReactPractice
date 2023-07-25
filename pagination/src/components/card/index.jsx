@@ -40,7 +40,7 @@ const ProductCard = ({product}) => {
 
   return (
     <div>
-      <Box sx={{ maxWidth: 275 }}>
+      <Box sx={{ width: 350 }}>
         <Card variant="outlined">{card}</Card>
       </Box>
     </div>

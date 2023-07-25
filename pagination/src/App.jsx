@@ -37,6 +37,7 @@ function App() {
   }, []);
   return (
     <>
+      <h1>PAGINATION</h1>
       <Cards products={state.products} page={state.page} />
       <Pagination totalPage={state.totalPage} setPage={dispatch} />
     </>
