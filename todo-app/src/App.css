@@ -1,0 +1,31 @@
+#root {
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+.row{
+  --bs-gutter-x:0 !important;
+}
+input{
+  width: 700px;
+  padding: 7px;
+  outline: none;
+  border: 2px solid #c1d0eb !important;
+}
+.list-group-item{
+  border: 1px solid #ddd !important;
+  border-radius: 0 !important;
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+}
+button{
+  color: #fff !important;
+}
