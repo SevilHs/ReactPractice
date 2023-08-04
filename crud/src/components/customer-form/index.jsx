@@ -17,38 +17,41 @@ const CustomerForm = ({customerValue,id,customers,setCustomers,setIsModalOpen}) 
   const handleEditCustomer=(obj)=>{
     editCustomer(obj,id)
     setIsModalOpen(false)
-    // setCustomers()
+    const index=customers.findIndex(item=>item.id==id)
+    const updatedData=[...customers]
+    updatedData.splice(index,1,{...obj,id})
+    setCustomers(updatedData)
   }
   return (
     <div id="customer-form">
-      <div className="container">
-        <h1>{id ? "Edit Customer✍️" : "Add Customer📌"}</h1>
-        <div className="customer-form">
+      <div className="mx-auto my-14 max-w-7xl">
+        <div className="text-center text-3xl my-7">{id ? "Edit Customer✍️" : "Add Customer📌"}</div>
+        <div className="w-1/2 mx-auto">
           <Formik
-            initialValues={
-                id ? {
-                    companyName: customerValue.companyName,
-                    contactTitle: customerValue.contactTitle,
-                    address:{
-                        city: customerValue.address.city,
-                        street: customerValue.address.street,
-                    }
-                  }
-                  : {
-                    companyName: "",
-                    contactTitle: "",
-                    address:{
-                        city: "",
-                        street: "",
-                    }
-                  }
+            initialValues={id ? {
+              companyName: customerValue.companyName,
+              contactTitle: customerValue.contactTitle,
+              address:{
+                  city: customerValue.address.city,
+                  street: customerValue.address.street,
+              }
             }
-            validationSchema={validate}
-            onSubmit={(values) => {
-              id ? handleEditCustomer(values) :  handleAddCustomer(values)
+            : 
+            {
+              companyName: "",
+              contactTitle: "",
+              address:{
+                city: "",
+                street: "",
+              }
             }}
-          >
-            {({ errors, touched }) => (
+            validationSchema={validate}
+            onSubmit={(values,actions) => {
+              id ? handleEditCustomer(values) :  handleAddCustomer(values)
+              actions.resetForm()
+            }}
+            >
+            {({ resetForm  }) => (
               <Form>
                 <InputField
                   type="text"
@@ -70,8 +73,13 @@ const CustomerForm = ({customerValue,id,customers,setCustomers,setIsModalOpen}) 
                   name="address.street"
                   label="Street"
                 />
-                <button type="submit">{id? "Edit Customer" : "Add Customer"}</button>
-                {id && <button type="button" onClick={()=>setIsModalOpen(false)}>Cancel</button>}
+                <div className="flex justify-around">
+                <button className="rounded bg-yellow-400 w-36 p-3 text-gray-50 text-lg" type="submit">{id? "Edit Customer" : "Add Customer"}</button>
+                {id && <button className="rounded p-3 bg-red-600 w-20 text-gray-50 text-lg " type="button" onClick={()=>{
+                  resetForm()
+                  setIsModalOpen(false)
+                }}>Cancel</button>}
+                </div>
               </Form>
             )}
           </Formik>

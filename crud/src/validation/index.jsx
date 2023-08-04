@@ -9,8 +9,6 @@ export const validate = Yup.object().shape({
     .min(2, "Contact Title must be 2 or more charaters!")
     .max(20, "Contact Title must be 20 or less!")
     .required("Contact Title must be required!"),
-//   address: {
-//     city: Yup.string().required("City is required!"),
-//     street: Yup.string().required("Street is required!"),
-//   },
+  // city: Yup.string().min(2, "some").required("City is required!"),
+  // street: Yup.string().required("Street is required!"),
 });

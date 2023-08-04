@@ -21,7 +21,7 @@ const CustomersList = () => {
           content="Beginner friendly page for learning React Helmet."
         />
       </Helmet>
-      ;
+      <div className="max-w-7xl my-2 mx-auto text-lg text-orange-600 font-medium">*Click Id for Details</div>
       <CustomersTable customers={customers} setCustomers={setCustomers} />
     </div>
   );

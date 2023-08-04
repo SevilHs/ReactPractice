@@ -4,9 +4,9 @@ import { FavouritesContext } from "../../context/FavouritesContext";
 
 const Favourites = () => {
   const { favourites, setFavourites } = useContext(FavouritesContext);
-  const handleDeleteFav=(id)=>{
-    setFavourites(favourites.filter(item=>item.id!=id))
-  }
+  const handleDeleteFav = (id) => {
+    setFavourites(favourites.filter((item) => item.id != id));
+  };
   return (
     <div>
       <Helmet>
@@ -16,13 +16,14 @@ const Favourites = () => {
           content="Beginner friendly page for learning React Helmet."
         />
       </Helmet>
-      <table>
+      <table className="w-1/2 mx-auto my-7">
         <thead>
           <tr>
-            <th>Id</th>
-            <th>Company Name</th>
-            <th>Address</th>
-            <th>Actions</th>
+            <th className="text-start">Id</th>
+            <th className="text-start">Company Name</th>
+            <th className="text-start">Contact Title</th>
+            <th className="text-start">Address</th>
+            <th className="text-start">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -31,9 +32,15 @@ const Favourites = () => {
               <tr key={item.id}>
                 <td>{item.id}</td>
                 <td>{item.companyName}</td>
+                <td>{item.contactTitle}</td>
                 <td>{item.address.city}</td>
                 <td>
-                  <button onClick={()=>handleDeleteFav(item.id)}>Delete</button>
+                  <button
+                    className="bg-indigo-400 rounded p-2"
+                    onClick={() => handleDeleteFav(item.id)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             );

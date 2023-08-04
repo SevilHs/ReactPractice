@@ -4,6 +4,7 @@ import { deleteCustomer } from "../../services/customers.service";
 import CustomerForm from "../customer-form";
 import axios from "axios";
 import { FavouritesContext } from "../../context/FavouritesContext";
+import { Link } from "react-router-dom";
 const { Column } = Table;
 
 const CustomersTable = ({ customers, setCustomers }) => {
@@ -13,6 +14,7 @@ const CustomersTable = ({ customers, setCustomers }) => {
   const [checkSort,setCheckSort]=useState('')
   const [id, setId] = useState("");
 
+  const btnStyle="rounded p-2 text-gray-50"
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -39,7 +41,8 @@ const CustomersTable = ({ customers, setCustomers }) => {
     setCustomers(updatedCustomers);
   };
   const handleAddFavourites=(obj)=>{
-    setFavourites([...favourites,obj])
+    let checkFav=favourites.find(item=>item.id==obj.id)
+    !checkFav && setFavourites([...favourites,obj])
   }
   const handleSort=()=>{
     setCheckSort("asc")
@@ -54,9 +57,8 @@ const CustomersTable = ({ customers, setCustomers }) => {
     setCustomers(sortedCustomers)
   }
   return (
-    <div className="container" >
-      <Modal title="Basic Modal" open={isModalOpen} closeIcon={false} footer={false} >
-        {/* <CloseOutlined /> */}
+    <div className="mx-auto max-w-7xl" >
+      <Modal open={isModalOpen} closeIcon={false} footer={false} >
         <CustomerForm
           customerValue={customerValue}
           id={id}
@@ -65,16 +67,18 @@ const CustomersTable = ({ customers, setCustomers }) => {
           setIsModalOpen={setIsModalOpen}
         />
       </Modal>
-      <input type="search" onChange={(e) => handleSearch(e.target.value)} placeholder="Search Company Name..."/>
-      <button onClick={()=> handleSort()}>
-       {checkSort ? (checkSort=="asc" ? "Sort by Id⬆️" : "Sort by Id⬇️") : "Sort by Id"}
-      </button>
+      <div className="flex justify-between my-7">
+        <input className="placeholder:text-slate-400 w-1/2 block border rounded-md py-2 px-3 shadow-sm focus:outline-none focus:border-none focus:ring-1 sm:text-sm" type="search" onChange={(e) => handleSearch(e.target.value)} placeholder="Search Company Name..."/>
+        <button className="rounded bg-gray-400 w-40 p-3 text-gray-50" onClick={()=> handleSort()}>
+           {checkSort ? (checkSort=="asc" ? "Sort by Id⬆️" : "Sort by Id⬇️") : "Sort by Id"}
+        </button>
+      </div>
       <Table dataSource={customers} rowKey={(record)=>record.id}>
         <Column
           title="Id"
           dataIndex="id"
           key="id"
-          render={(text) => <a href={`customers-list/${text}`}>{text.slice(0, 5)}</a>}
+          render={(text) => <Link to={`/customers-list/${text}`}>{text.slice(0, 5)}</Link>}
         />
         <Column
           title="Company Name"
@@ -101,11 +105,11 @@ const CustomersTable = ({ customers, setCustomers }) => {
           key="action"
           render={(_, record) => (
             <Space size="middle">
-              <button onClick={()=>handleAddFavourites(record)}>{favourites.find(item=>item.id==record.id) ? "Added" : "Add Favourites"}</button>
-              <button onClick={() => handleEdit(record, record.id)}>
+              <button className={`bg-violet-400 ${btnStyle}`} onClick={()=>handleAddFavourites(record)}>{favourites.find(item=>item.id==record.id) ? "Added" : "Add Favourites"}</button>
+              <button className={`bg-yellow-400 ${btnStyle}`} onClick={() => handleEdit(record, record.id)}>
                 Edit {record.id.slice(0, 5)}
               </button>
-              <button onClick={() => handleDelete(record.id)}>Delete</button>
+              <button className={`bg-red-600 ${btnStyle}`} onClick={() => handleDelete(record.id)}>Delete</button>
             </Space>
           )}
         />
