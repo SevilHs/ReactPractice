@@ -1,18 +1,24 @@
 import { Form, Formik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import InputField from "./InputField";
 import { v4 as uuid } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser, updateUser } from "../../redux/usersSlice";
+// import { addUser, updateUser } from "../../redux/usersSlice";
+import { addUser, getData, updateUser } from "../../redux/usersSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { validate } from "../../validation";
 
 const UserForm = () => {
   const { id } = useParams();
-  const users = useSelector((state) => state.users);
-  const user = users.find((item) => item.id == id);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const users = useSelector((state) => state.users.data);
+  const user = users.find((item) => item.id == id);
+
+  useEffect(() => {
+    dispatch(getData());
+  }, []);
 
   const handleAddUser = (values) => {
     let obj = {
@@ -34,12 +40,12 @@ const UserForm = () => {
         initialValues={
           id
             ? {
-                name: user?.name,
-                email: user?.email,
+                companyName: user?.companyName,
+                contactName: user?.contactName,
               }
             : {
-                name: "",
-                email: "",
+                companyName: "",
+                contactName: "",
               }
         }
         validationSchema={validate}
@@ -52,15 +58,15 @@ const UserForm = () => {
         <Form className="my-12 flex flex-col">
           <InputField
             type="text"
-            name="name"
+            name="companyName"
             label="User Name"
             placeholder="Name & Surname..."
           />
           <InputField
-            type="email"
-            name="email"
-            label="User Email"
-            placeholder="Email..."
+            type="text"
+            name="contactName"
+            label="User Title"
+            placeholder="User Title..."
           />
           <button
             className=" w-1/3 mx-auto mt-7 rounded-lg bg-sky-900	text-white px-7 py-3"
